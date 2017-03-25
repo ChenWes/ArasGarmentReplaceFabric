@@ -48,6 +48,7 @@
             this.btn_StartReplace = new System.Windows.Forms.Button();
             this.btn_Start = new System.Windows.Forms.Button();
             this.pro_CheckItem = new System.Windows.Forms.ProgressBar();
+            this.txt_ReplaceAML = new System.Windows.Forms.TextBox();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -197,7 +198,7 @@
             // 
             // btn_StartReplace
             // 
-            this.btn_StartReplace.Location = new System.Drawing.Point(568, 143);
+            this.btn_StartReplace.Location = new System.Drawing.Point(585, 160);
             this.btn_StartReplace.Name = "btn_StartReplace";
             this.btn_StartReplace.Size = new System.Drawing.Size(121, 19);
             this.btn_StartReplace.TabIndex = 11;
@@ -207,7 +208,7 @@
             // 
             // btn_Start
             // 
-            this.btn_Start.Location = new System.Drawing.Point(441, 143);
+            this.btn_Start.Location = new System.Drawing.Point(423, 160);
             this.btn_Start.Name = "btn_Start";
             this.btn_Start.Size = new System.Drawing.Size(121, 19);
             this.btn_Start.TabIndex = 12;
@@ -222,11 +223,24 @@
             this.pro_CheckItem.Size = new System.Drawing.Size(823, 16);
             this.pro_CheckItem.TabIndex = 13;
             // 
+            // txt_ReplaceAML
+            // 
+            this.txt_ReplaceAML.Location = new System.Drawing.Point(423, 113);
+            this.txt_ReplaceAML.Multiline = true;
+            this.txt_ReplaceAML.Name = "txt_ReplaceAML";
+            this.txt_ReplaceAML.ScrollBars = System.Windows.Forms.ScrollBars.Both;
+            this.txt_ReplaceAML.Size = new System.Drawing.Size(412, 32);
+            this.txt_ReplaceAML.TabIndex = 14;
+            this.txt_ReplaceAML.Text = "<Item type=\"Garment BOM Part\" where=\"id=\'$1\'\" action=\"edit\">\t\t\r\n\t<related_id>\r\n\t\t" +
+    "<Item type=\"Part\" action=\"get\" select=\"id\">\r\n\t\t\t<item_number>$2</item_number>\r\n\t" +
+    "\t</Item>\r\n\t</related_id>\r\n</Item>";
+            // 
             // FrmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(844, 588);
+            this.Controls.Add(this.txt_ReplaceAML);
             this.Controls.Add(this.pro_CheckItem);
             this.Controls.Add(this.btn_StartReplace);
             this.Controls.Add(this.btn_Start);
@@ -263,6 +277,7 @@
         private System.Windows.Forms.Button btn_Start;
         private System.Windows.Forms.ProgressBar pro_CheckItem;
         private System.Windows.Forms.ImageList imageLiarbry;
+        private System.Windows.Forms.TextBox txt_ReplaceAML;
     }
 }
 

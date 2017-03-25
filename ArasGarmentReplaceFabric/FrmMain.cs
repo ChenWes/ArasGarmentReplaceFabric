@@ -176,7 +176,7 @@ namespace ArasGarmentReplaceFabric
 
                     #endregion
 
-                    //SettingProcess(l_getDataRow.Length - 1, rowIDX);
+                    SettingProcess(l_getDataRow.Length, rowIDX + 1);
 
                     //clear node
                     tre_Item.Nodes.Clear();
@@ -217,7 +217,8 @@ namespace ArasGarmentReplaceFabric
                                     Item l_part_Item = l_GarmentBOMPart_Item.getItemByIndex(garOptIDX).getRelatedItem();
 
                                     TreeNode l_part_Node = new TreeNode(l_part_Item.getProperty("item_number", "item_number"), 0, 0);
-
+                                    l_part_Node.Tag = l_GarmentBOMPart_Item.getItemByIndex(garOptIDX).getProperty("id", "");
+                                    l_part_Node.ToolTipText = l_getDataColumn[2];
 
                                     l_GarmentBOM_Item_Node.Nodes.Add(l_part_Node);
                                 }
@@ -252,7 +253,56 @@ namespace ArasGarmentReplaceFabric
         {
             try
             {
+                if (mc_innovator == null)
+                {
+                    throw new Exception("Please Connection To Aras First.");
+                }
 
+                if (string.IsNullOrEmpty(txt_SearchAML.Text.Trim()))
+                {
+                    throw new Exception("Please Enter Search AML .");
+                }
+
+                if (string.IsNullOrEmpty(txt_ReplaceAML.Text.Trim()))
+                {
+                    throw new Exception("Please Enter Replace AML .");
+                }
+
+                string AML = "<AML>" + txt_ReplaceAML.Text.Trim() + "</AML>";
+
+                foreach (TreeNode styleNode in tre_Item.Nodes[0].Nodes)
+                {
+                    foreach (TreeNode optNode in styleNode.Nodes)
+                    {
+                        foreach (TreeNode fabNode in optNode.Nodes)
+                        {
+                            foreach (TreeNode partNode in fabNode.Nodes)
+                            {
+                                if (!string.IsNullOrEmpty(partNode.Tag.ToString()) && !string.IsNullOrEmpty(partNode.ToolTipText.ToString()))
+                                {
+                                    AML = AML.Replace("$1", partNode.Tag.ToString());
+                                    AML = AML.Replace("$2", partNode.ToolTipText.ToString());
+
+                                    //Item l_checkItem = mc_innovator.applyAML(AML);
+
+                                    //if (l_checkItem.isError())
+                                    //{
+                                    //    throw new Exception("AML Run Have Error[" + l_checkItem.getErrorCode() + "]" + l_checkItem.getErrorDetail());
+                                    //}
+
+                                    //if (l_checkItem.getItemCount() == 0)
+                                    //{
+                                    //    throw new Exception("AML Return Item Zero Error[" + l_checkItem.getErrorCode() + "]" + l_checkItem.getErrorDetail());
+                                    //}
+
+                                    partNode.Text = partNode.Text + "-->" + partNode.ToolTipText;
+                                    partNode.ImageIndex = 3;
+                                    partNode.SelectedImageIndex = 3;
+                                }
+                            }
+                        }
+                    }
+                }
             }
             catch (Exception ex)
             {
