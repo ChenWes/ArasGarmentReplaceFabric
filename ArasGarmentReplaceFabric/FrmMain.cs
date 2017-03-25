@@ -283,17 +283,17 @@ namespace ArasGarmentReplaceFabric
                                     AML = AML.Replace("$1", partNode.Tag.ToString());
                                     AML = AML.Replace("$2", partNode.ToolTipText.ToString());
 
-                                    //Item l_checkItem = mc_innovator.applyAML(AML);
+                                    Item l_checkItem = mc_innovator.applyAML(AML);
 
-                                    //if (l_checkItem.isError())
-                                    //{
-                                    //    throw new Exception("AML Run Have Error[" + l_checkItem.getErrorCode() + "]" + l_checkItem.getErrorDetail());
-                                    //}
+                                    if (l_checkItem.isError())
+                                    {
+                                        throw new Exception("AML Run Have Error[" + l_checkItem.getErrorCode() + "]" + l_checkItem.getErrorDetail());
+                                    }
 
-                                    //if (l_checkItem.getItemCount() == 0)
-                                    //{
-                                    //    throw new Exception("AML Return Item Zero Error[" + l_checkItem.getErrorCode() + "]" + l_checkItem.getErrorDetail());
-                                    //}
+                                    if (l_checkItem.getItemCount() == 0)
+                                    {
+                                        throw new Exception("AML Return Item Zero Error[" + l_checkItem.getErrorCode() + "]" + l_checkItem.getErrorDetail());
+                                    }
 
                                     partNode.Text = partNode.Text + "-->" + partNode.ToolTipText;
                                     partNode.ImageIndex = 3;
