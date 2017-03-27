@@ -138,6 +138,8 @@ namespace ArasGarmentReplaceFabric
 
 
 
+                TreeNode l_rootNode = new TreeNode("Garment Style", 0, 0);
+
                 string[] l_getDataRow = txt_DataList.Text.Trim().Split(new char[] { '\n', '\r' }, StringSplitOptions.RemoveEmptyEntries);
 
                 int l_columnIdx = 0;
@@ -181,7 +183,6 @@ namespace ArasGarmentReplaceFabric
                     //clear node
                     tre_Item.Nodes.Clear();
 
-                    TreeNode l_rootNode = new TreeNode("Garment Style", 0, 0);
 
                     #region process garment style
                     for (int garmentIDX = 0; garmentIDX < l_GetItem.getItemCount(); garmentIDX++)
