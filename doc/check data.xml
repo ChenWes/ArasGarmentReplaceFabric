@@ -1,0 +1,32 @@
+<AML>
+	<Item type="Garment" action="get">
+		<item_number>15DSGS001ES</item_number>
+		<Relationships>
+			<Item type="Garment Style Contains Option" action="get">
+				<related_id>
+					<Item type="Garment Style Option" action="get">
+						<cn_plu>11173010814</cn_plu>
+						<Relationships>
+							<Item type="Garment Style Option BOM" action="get">
+								<related_id>
+									<Item type="Garment BOM" action="get">
+										<cn_bom_type>FAB</cn_bom_type>
+										<Relationships>
+											<Item type="Garment BOM Part" action="get">
+												<cn_garment_part>BD</cn_garment_part>
+												<related_id>
+													<Item type="Part" action="get">
+													</Item>
+												</related_id>
+											</Item>
+										</Relationships>
+									</Item>
+								</related_id>
+							</Item>
+						</Relationships>
+					</Item>
+				</related_id>
+			</Item>
+		</Relationships>
+	</Item>
+</AML>

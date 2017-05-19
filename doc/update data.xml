@@ -1,0 +1,7 @@
+<Item type="Garment BOM Part" where="id='$1'" action="edit">		
+	<related_id>
+		<Item type="Part" action="get" select="id">
+			<item_number>$2</item_number>
+		</Item>
+	</related_id>
+</Item>
