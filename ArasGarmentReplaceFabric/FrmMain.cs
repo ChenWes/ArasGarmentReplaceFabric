@@ -269,8 +269,6 @@ namespace ArasGarmentReplaceFabric
                     throw new Exception("Please Enter Replace AML .");
                 }
 
-                string AML = "<AML>" + txt_ReplaceAML.Text.Trim() + "</AML>";
-
                 foreach (TreeNode styleNode in tre_Item.Nodes[0].Nodes)
                 {
                     foreach (TreeNode optNode in styleNode.Nodes)
@@ -281,6 +279,8 @@ namespace ArasGarmentReplaceFabric
                             {
                                 if (!string.IsNullOrEmpty(partNode.Tag.ToString()) && !string.IsNullOrEmpty(partNode.ToolTipText.ToString()))
                                 {
+                                    string AML = "<AML>" + txt_ReplaceAML.Text.Trim() + "</AML>";
+
                                     AML = AML.Replace("$1", partNode.Tag.ToString());
                                     AML = AML.Replace("$2", partNode.ToolTipText.ToString());
 
