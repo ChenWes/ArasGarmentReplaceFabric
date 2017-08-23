@@ -114,6 +114,7 @@
             this.btn_disconnection.TabIndex = 1;
             this.btn_disconnection.Text = "Disconnection";
             this.btn_disconnection.UseVisualStyleBackColor = true;
+            this.btn_disconnection.Click += new System.EventHandler(this.btn_disconnection_Click_1);
             // 
             // btn_ConnectionAras
             // 

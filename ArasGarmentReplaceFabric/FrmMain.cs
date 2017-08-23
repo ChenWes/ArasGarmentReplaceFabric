@@ -20,6 +20,8 @@ namespace ArasGarmentReplaceFabric
         public FrmMain()
         {
             InitializeComponent();
+
+            SettingConnectionButton(false);
         }
 
         private void GetConnection(string l_serverurl, string l_db, string l_username, string l_password)
@@ -55,8 +57,11 @@ namespace ArasGarmentReplaceFabric
             txt_password.Enabled = !bln_ConnectionFlag;
 
             btn_Start.Enabled = bln_ConnectionFlag;
+            btn_StartReplace.Enabled = bln_ConnectionFlag;
 
             txt_SearchAML.Enabled = bln_ConnectionFlag;
+            txt_ReplaceAML.Enabled = bln_ConnectionFlag;
+            txt_DataList.Enabled = bln_ConnectionFlag;
 
             if (!bln_ConnectionFlag)
             {
@@ -136,6 +141,11 @@ namespace ArasGarmentReplaceFabric
                     throw new Exception("Please Enter Search AML .");
                 }
 
+                if (string.IsNullOrEmpty(txt_DataList.Text.Trim()))
+                {
+                    txt_DataList.Focus();
+                    throw new Exception("Please Enter Check Data .");
+                }
 
 
                 TreeNode l_rootNode = new TreeNode("Garment Style", 0, 0);
@@ -269,14 +279,27 @@ namespace ArasGarmentReplaceFabric
                     throw new Exception("Please Enter Replace AML .");
                 }
 
+                if (tre_Item.Nodes != null && tre_Item.Nodes.Count > 0)
+                {
+                    tre_Item.Nodes[0].Expand();
+                }
+
                 foreach (TreeNode styleNode in tre_Item.Nodes[0].Nodes)
                 {
+                    styleNode.Expand();
+
                     foreach (TreeNode optNode in styleNode.Nodes)
                     {
+                        optNode.Expand();
+
                         foreach (TreeNode fabNode in optNode.Nodes)
                         {
+                            fabNode.Expand();
+
                             foreach (TreeNode partNode in fabNode.Nodes)
                             {
+                                partNode.Expand();
+
                                 if (!string.IsNullOrEmpty(partNode.Tag.ToString()) && !string.IsNullOrEmpty(partNode.ToolTipText.ToString()))
                                 {
                                     string AML = "<AML>" + txt_ReplaceAML.Text.Trim() + "</AML>";
@@ -299,6 +322,15 @@ namespace ArasGarmentReplaceFabric
                                     partNode.Text = partNode.Text + "-->" + partNode.ToolTipText;
                                     partNode.ImageIndex = 3;
                                     partNode.SelectedImageIndex = 3;
+
+                                    fabNode.ImageIndex = 3;
+                                    fabNode.SelectedImageIndex = 3;
+
+                                    optNode.ImageIndex = 3;
+                                    optNode.SelectedImageIndex = 3;
+
+                                    styleNode.ImageIndex = 3;
+                                    styleNode.SelectedImageIndex = 3;
                                 }
                             }
                         }
@@ -309,6 +341,14 @@ namespace ArasGarmentReplaceFabric
             {
                 ShowError("replace data error:" + ex.Message);
             }
+        }
+
+        private void btn_disconnection_Click_1(object sender, EventArgs e)
+        {
+            mc_conn.Logout();
+            mc_conn = null;
+            mc_innovator = null;
+            SettingConnectionButton(false);
         }
     }
 }
