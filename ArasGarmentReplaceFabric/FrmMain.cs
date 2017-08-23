@@ -279,58 +279,64 @@ namespace ArasGarmentReplaceFabric
                     throw new Exception("Please Enter Replace AML .");
                 }
 
-                if (tre_Item.Nodes != null && tre_Item.Nodes.Count > 0)
-                {
-                    tre_Item.Nodes[0].Expand();
-                }
 
-                foreach (TreeNode styleNode in tre_Item.Nodes[0].Nodes)
+                DialogResult result= MessageBox.Show("Replace Main Body Fabric Just Change Latest Version , Do You Know That ?","System Message",MessageBoxButtons.YesNo,MessageBoxIcon.Question);
+                if (result == System.Windows.Forms.DialogResult.Yes)
                 {
-                    styleNode.Expand();
 
-                    foreach (TreeNode optNode in styleNode.Nodes)
+                    if (tre_Item.Nodes != null && tre_Item.Nodes.Count > 0)
                     {
-                        optNode.Expand();
+                        tre_Item.Nodes[0].Expand();
+                    }
 
-                        foreach (TreeNode fabNode in optNode.Nodes)
+                    foreach (TreeNode styleNode in tre_Item.Nodes[0].Nodes)
+                    {
+                        styleNode.Expand();
+
+                        foreach (TreeNode optNode in styleNode.Nodes)
                         {
-                            fabNode.Expand();
+                            optNode.Expand();
 
-                            foreach (TreeNode partNode in fabNode.Nodes)
+                            foreach (TreeNode fabNode in optNode.Nodes)
                             {
-                                partNode.Expand();
+                                fabNode.Expand();
 
-                                if (!string.IsNullOrEmpty(partNode.Tag.ToString()) && !string.IsNullOrEmpty(partNode.ToolTipText.ToString()))
+                                foreach (TreeNode partNode in fabNode.Nodes)
                                 {
-                                    string AML = "<AML>" + txt_ReplaceAML.Text.Trim() + "</AML>";
+                                    partNode.Expand();
 
-                                    AML = AML.Replace("$1", partNode.Tag.ToString());
-                                    AML = AML.Replace("$2", partNode.ToolTipText.ToString());
-
-                                    Item l_checkItem = mc_innovator.applyAML(AML);
-
-                                    if (l_checkItem.isError())
+                                    if (!string.IsNullOrEmpty(partNode.Tag.ToString()) && !string.IsNullOrEmpty(partNode.ToolTipText.ToString()))
                                     {
-                                        throw new Exception("AML Run Have Error[" + l_checkItem.getErrorCode() + "]" + l_checkItem.getErrorDetail());
+                                        string AML = "<AML>" + txt_ReplaceAML.Text.Trim() + "</AML>";
+
+                                        AML = AML.Replace("$1", partNode.Tag.ToString());
+                                        AML = AML.Replace("$2", partNode.ToolTipText.ToString());
+
+                                        Item l_checkItem = mc_innovator.applyAML(AML);
+
+                                        if (l_checkItem.isError())
+                                        {
+                                            throw new Exception("AML Run Have Error[" + l_checkItem.getErrorCode() + "]" + l_checkItem.getErrorDetail());
+                                        }
+
+                                        if (l_checkItem.getItemCount() == 0)
+                                        {
+                                            throw new Exception("AML Return Item Zero Error[" + l_checkItem.getErrorCode() + "]" + l_checkItem.getErrorDetail());
+                                        }
+
+                                        partNode.Text = partNode.Text + "-->" + partNode.ToolTipText;
+                                        partNode.ImageIndex = 3;
+                                        partNode.SelectedImageIndex = 3;
+
+                                        fabNode.ImageIndex = 3;
+                                        fabNode.SelectedImageIndex = 3;
+
+                                        optNode.ImageIndex = 3;
+                                        optNode.SelectedImageIndex = 3;
+
+                                        styleNode.ImageIndex = 3;
+                                        styleNode.SelectedImageIndex = 3;
                                     }
-
-                                    if (l_checkItem.getItemCount() == 0)
-                                    {
-                                        throw new Exception("AML Return Item Zero Error[" + l_checkItem.getErrorCode() + "]" + l_checkItem.getErrorDetail());
-                                    }
-
-                                    partNode.Text = partNode.Text + "-->" + partNode.ToolTipText;
-                                    partNode.ImageIndex = 3;
-                                    partNode.SelectedImageIndex = 3;
-
-                                    fabNode.ImageIndex = 3;
-                                    fabNode.SelectedImageIndex = 3;
-
-                                    optNode.ImageIndex = 3;
-                                    optNode.SelectedImageIndex = 3;
-
-                                    styleNode.ImageIndex = 3;
-                                    styleNode.SelectedImageIndex = 3;
                                 }
                             }
                         }
