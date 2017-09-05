@@ -17,6 +17,15 @@ namespace ArasGarmentReplaceFabric
         private HttpServerConnection mc_conn = null;
         private Innovator mc_innovator = null;
 
+        //process type
+        private replaceType mc_replaceType;
+        public enum replaceType
+        {
+            None = 0,
+            Fabirc = 1,
+            PLU = 2
+        }
+
         public FrmMain()
         {
             InitializeComponent();
@@ -60,7 +69,8 @@ namespace ArasGarmentReplaceFabric
             btn_StartReplace.Enabled = bln_ConnectionFlag;
 
             txt_SearchAML.Enabled = bln_ConnectionFlag;
-            txt_ReplaceAML.Enabled = bln_ConnectionFlag;
+            txt_ReplaceFabricAML.Enabled = bln_ConnectionFlag;
+            txt_ReplacePLUAML.Enabled = bln_ConnectionFlag;
             txt_DataList.Enabled = bln_ConnectionFlag;
 
             if (!bln_ConnectionFlag)
@@ -147,6 +157,7 @@ namespace ArasGarmentReplaceFabric
                     throw new Exception("Please Enter Check Data .");
                 }
 
+                mc_replaceType = replaceType.None;
 
                 TreeNode l_rootNode = new TreeNode("Garment Style", 0, 0);
 
@@ -160,6 +171,23 @@ namespace ArasGarmentReplaceFabric
                     if (l_getDataColumn != null && l_getDataColumn.Length != 0)
                     {
                         l_columnIdx = l_getDataColumn.Length;
+                    }
+
+                    //type logic
+                    if (mc_replaceType == replaceType.None)
+                    {
+                        if (l_columnIdx == 4)
+                        {
+                            mc_replaceType = replaceType.Fabirc;
+                        }
+                        else if (l_columnIdx == 3)
+                        {
+                            mc_replaceType = replaceType.PLU;
+                        }
+                        else
+                        {
+                            throw new Exception("No Support Type");
+                        }
                     }
 
                     string l_AML = "";
@@ -210,6 +238,8 @@ namespace ArasGarmentReplaceFabric
                             Item l_GarmentStyleOption_Item = l_GarmentStyleContainsOption_Item.getItemByIndex(garOptIDX).getRelatedItem();
 
                             TreeNode l_GarmentStyleOption_Item_Node = new TreeNode(l_GarmentStyleOption_Item.getProperty("option_no", "option_no") + "<-->" + l_GarmentStyleOption_Item.getProperty("cn_body_pattern", "cn_body_pattern") + "<-->" + l_GarmentStyleOption_Item.getProperty("cn_plu", "cn_plu"), 0, 0);
+                            l_GarmentStyleOption_Item_Node.Tag = l_GarmentStyleOption_Item.getProperty("id", "");
+                            l_GarmentStyleOption_Item_Node.ToolTipText = l_getDataColumn[2];
 
                             #region process Garment BOM
 
@@ -274,11 +304,20 @@ namespace ArasGarmentReplaceFabric
                     throw new Exception("Please Enter Search AML .");
                 }
 
-                if (string.IsNullOrEmpty(txt_ReplaceAML.Text.Trim()))
+                if (string.IsNullOrEmpty(txt_ReplaceFabricAML.Text.Trim()))
                 {
                     throw new Exception("Please Enter Replace AML .");
                 }
 
+                if (string.IsNullOrEmpty(txt_ReplacePLUAML.Text.Trim()))
+                {
+                    throw new Exception("Please Enter Replace AML .");
+                }
+
+                if (mc_replaceType == replaceType.None)
+                {
+                    throw new Exception("No Support Type .");
+                }
 
                 DialogResult result= MessageBox.Show("Replace Main Body Fabric Just Change Latest Version , Do You Know That ?","System Message",MessageBoxButtons.YesNo,MessageBoxIcon.Question);
                 if (result == System.Windows.Forms.DialogResult.Yes)
@@ -297,47 +336,83 @@ namespace ArasGarmentReplaceFabric
                         {
                             optNode.Expand();
 
-                            foreach (TreeNode fabNode in optNode.Nodes)
+                            if (mc_replaceType == replaceType.PLU)
                             {
-                                fabNode.Expand();
+                                #region replace PLU
 
-                                foreach (TreeNode partNode in fabNode.Nodes)
+                                if (!string.IsNullOrEmpty(optNode.Tag.ToString()) && !string.IsNullOrEmpty(optNode.ToolTipText.ToString()))
                                 {
-                                    partNode.Expand();
+                                    string AML = "<AML>" + txt_ReplaceFabricAML.Text.Trim() + "</AML>";
 
-                                    if (!string.IsNullOrEmpty(partNode.Tag.ToString()) && !string.IsNullOrEmpty(partNode.ToolTipText.ToString()))
+                                    AML = AML.Replace("$1", optNode.Tag.ToString());
+                                    AML = AML.Replace("$2", optNode.ToolTipText.ToString());
+
+                                    Item l_checkItem = mc_innovator.applyAML(AML);
+
+                                    if (l_checkItem.isError())
                                     {
-                                        string AML = "<AML>" + txt_ReplaceAML.Text.Trim() + "</AML>";
+                                        throw new Exception("AML Run Have Error[" + l_checkItem.getErrorCode() + "]" + l_checkItem.getErrorDetail());
+                                    }
 
-                                        AML = AML.Replace("$1", partNode.Tag.ToString());
-                                        AML = AML.Replace("$2", partNode.ToolTipText.ToString());
+                                    if (l_checkItem.getItemCount() == 0)
+                                    {
+                                        throw new Exception("AML Return Item Zero Error[" + l_checkItem.getErrorCode() + "]" + l_checkItem.getErrorDetail());
+                                    }
 
-                                        Item l_checkItem = mc_innovator.applyAML(AML);
+                                    optNode.Text = optNode.Text + "-->" + optNode.ToolTipText;
+                                    optNode.ImageIndex = 3;
+                                    optNode.SelectedImageIndex = 3;
+                                }
 
-                                        if (l_checkItem.isError())
+                                #endregion
+                            }
+                            else if (mc_replaceType == replaceType.Fabirc)
+                            {
+                                #region replace Fabric
+                                foreach (TreeNode fabNode in optNode.Nodes)
+                                {
+                                    fabNode.Expand();
+
+                                    foreach (TreeNode partNode in fabNode.Nodes)
+                                    {
+                                        partNode.Expand();
+
+                                        if (!string.IsNullOrEmpty(partNode.Tag.ToString()) && !string.IsNullOrEmpty(partNode.ToolTipText.ToString()))
                                         {
-                                            throw new Exception("AML Run Have Error[" + l_checkItem.getErrorCode() + "]" + l_checkItem.getErrorDetail());
+                                            string AML = "<AML>" + txt_ReplaceFabricAML.Text.Trim() + "</AML>";
+
+                                            AML = AML.Replace("$1", partNode.Tag.ToString());
+                                            AML = AML.Replace("$2", partNode.ToolTipText.ToString());
+
+                                            Item l_checkItem = mc_innovator.applyAML(AML);
+
+                                            if (l_checkItem.isError())
+                                            {
+                                                throw new Exception("AML Run Have Error[" + l_checkItem.getErrorCode() + "]" + l_checkItem.getErrorDetail());
+                                            }
+
+                                            if (l_checkItem.getItemCount() == 0)
+                                            {
+                                                throw new Exception("AML Return Item Zero Error[" + l_checkItem.getErrorCode() + "]" + l_checkItem.getErrorDetail());
+                                            }
+
+                                            partNode.Text = partNode.Text + "-->" + partNode.ToolTipText;
+                                            partNode.ImageIndex = 3;
+                                            partNode.SelectedImageIndex = 3;
+
+                                            fabNode.ImageIndex = 3;
+                                            fabNode.SelectedImageIndex = 3;
+
+                                            optNode.ImageIndex = 3;
+                                            optNode.SelectedImageIndex = 3;
+
+                                            styleNode.ImageIndex = 3;
+                                            styleNode.SelectedImageIndex = 3;
                                         }
-
-                                        if (l_checkItem.getItemCount() == 0)
-                                        {
-                                            throw new Exception("AML Return Item Zero Error[" + l_checkItem.getErrorCode() + "]" + l_checkItem.getErrorDetail());
-                                        }
-
-                                        partNode.Text = partNode.Text + "-->" + partNode.ToolTipText;
-                                        partNode.ImageIndex = 3;
-                                        partNode.SelectedImageIndex = 3;
-
-                                        fabNode.ImageIndex = 3;
-                                        fabNode.SelectedImageIndex = 3;
-
-                                        optNode.ImageIndex = 3;
-                                        optNode.SelectedImageIndex = 3;
-
-                                        styleNode.ImageIndex = 3;
-                                        styleNode.SelectedImageIndex = 3;
                                     }
                                 }
+
+                                #endregion
                             }
                         }
                     }
