@@ -125,7 +125,7 @@
         AAEAAAD/////AQAAAAAAAAAMAgAAAFdTeXN0ZW0uV2luZG93cy5Gb3JtcywgVmVyc2lvbj00LjAuMC4w
         LCBDdWx0dXJlPW5ldXRyYWwsIFB1YmxpY0tleVRva2VuPWI3N2E1YzU2MTkzNGUwODkFAQAAACZTeXN0
         ZW0uV2luZG93cy5Gb3Jtcy5JbWFnZUxpc3RTdHJlYW1lcgEAAAAERGF0YQcCAgAAAAkDAAAADwMAAADI
-        CwAAAk1TRnQBSQFMAgEBBAEAAVgBAAFYAQABEAEAARABAAT/AQkBAAj/AUIBTQE2AQQGAAE2AQQCAAEo
+        CwAAAk1TRnQBSQFMAgEBBAEAAWABAAFgAQABEAEAARABAAT/AQkBAAj/AUIBTQE2AQQGAAE2AQQCAAEo
         AwABQAMAASADAAEBAQABCAYAAQgYAAGAAgABgAMAAoABAAGAAwABgAEAAYABAAKAAgADwAEAAcAB3AHA
         AQAB8AHKAaYBAAEzBQABMwEAATMBAAEzAQACMwIAAxYBAAMcAQADIgEAAykBAANVAQADTQEAA0IBAAM5
         AQABgAF8Af8BAAJQAf8BAAGTAQAB1gEAAf8B7AHMAQABxgHWAe8BAAHWAucBAAGQAakBrQIAAf8BMwMA
@@ -181,11 +181,13 @@
   <data name="txt_SearchAML.Text" xml:space="preserve">
     <value>&lt;Item type="Garment" action="get"&gt;
 	&lt;item_number&gt;$1&lt;/item_number&gt;
+	&lt;major_rev&gt;$2&lt;/major_rev&gt;
+	&lt;generation&gt;$3&lt;/generation&gt;
 	&lt;Relationships&gt;
 		&lt;Item type="Garment Style Contains Option" action="get"&gt;
 			&lt;related_id&gt;
 				&lt;Item type="Garment Style Option" action="get"&gt;
-					&lt;cn_plu&gt;$2&lt;/cn_plu&gt;
+					&lt;cn_plu&gt;$4&lt;/cn_plu&gt;
 					&lt;Relationships&gt;
 						&lt;Item type="Garment Style Option BOM" action="get"&gt;
 							&lt;related_id&gt;
