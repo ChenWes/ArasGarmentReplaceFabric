@@ -69,8 +69,8 @@ namespace ArasGarmentReplaceFabric
             btn_StartReplace.Enabled = bln_ConnectionFlag;
 
             txt_SearchAML.Enabled = bln_ConnectionFlag;
-            txt_ReplaceFabricAML.Enabled = bln_ConnectionFlag;
             txt_ReplacePLUAML.Enabled = bln_ConnectionFlag;
+            txt_ReplaceFabricAML.Enabled = bln_ConnectionFlag;
             txt_DataList.Enabled = bln_ConnectionFlag;
 
             if (!bln_ConnectionFlag)
@@ -304,12 +304,12 @@ namespace ArasGarmentReplaceFabric
                     throw new Exception("Please Enter Search AML .");
                 }
 
-                if (string.IsNullOrEmpty(txt_ReplaceFabricAML.Text.Trim()))
+                if (string.IsNullOrEmpty(txt_ReplacePLUAML.Text.Trim()))
                 {
                     throw new Exception("Please Enter Replace AML .");
                 }
 
-                if (string.IsNullOrEmpty(txt_ReplacePLUAML.Text.Trim()))
+                if (string.IsNullOrEmpty(txt_ReplaceFabricAML.Text.Trim()))
                 {
                     throw new Exception("Please Enter Replace AML .");
                 }
@@ -319,7 +319,7 @@ namespace ArasGarmentReplaceFabric
                     throw new Exception("No Support Type .");
                 }
 
-                DialogResult result= MessageBox.Show("Replace Main Body Fabric Just Change Latest Version , Do You Know That ?","System Message",MessageBoxButtons.YesNo,MessageBoxIcon.Question);
+                DialogResult result = MessageBox.Show("Replace Main Body Fabric / PLU Just Change Latest Version Generation, Do You Know That ?", "System Message", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
                 if (result == System.Windows.Forms.DialogResult.Yes)
                 {
 
@@ -342,7 +342,7 @@ namespace ArasGarmentReplaceFabric
 
                                 if (!string.IsNullOrEmpty(optNode.Tag.ToString()) && !string.IsNullOrEmpty(optNode.ToolTipText.ToString()))
                                 {
-                                    string AML = "<AML>" + txt_ReplaceFabricAML.Text.Trim() + "</AML>";
+                                    string AML = "<AML>" + txt_ReplacePLUAML.Text.Trim() + "</AML>";
 
                                     AML = AML.Replace("$1", optNode.Tag.ToString());
                                     AML = AML.Replace("$2", optNode.ToolTipText.ToString());

@@ -48,10 +48,10 @@
             this.btn_StartReplace = new System.Windows.Forms.Button();
             this.btn_Start = new System.Windows.Forms.Button();
             this.pro_CheckItem = new System.Windows.Forms.ProgressBar();
-            this.txt_ReplaceFabricAML = new System.Windows.Forms.TextBox();
+            this.txt_ReplacePLUAML = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
-            this.txt_ReplacePLUAML = new System.Windows.Forms.TextBox();
+            this.txt_ReplaceFabricAML = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
@@ -228,15 +228,15 @@
             this.pro_CheckItem.Size = new System.Drawing.Size(824, 17);
             this.pro_CheckItem.TabIndex = 13;
             // 
-            // txt_ReplaceFabricAML
+            // txt_ReplacePLUAML
             // 
-            this.txt_ReplaceFabricAML.Location = new System.Drawing.Point(423, 135);
-            this.txt_ReplaceFabricAML.Multiline = true;
-            this.txt_ReplaceFabricAML.Name = "txt_ReplaceFabricAML";
-            this.txt_ReplaceFabricAML.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.txt_ReplaceFabricAML.Size = new System.Drawing.Size(412, 32);
-            this.txt_ReplaceFabricAML.TabIndex = 14;
-            this.txt_ReplaceFabricAML.Text = "<Item type=\"Garment Style Option\" where=\"id=\'$1\'\" action=\"edit\">\r\n\t<cn_plu>$2</cn" +
+            this.txt_ReplacePLUAML.Location = new System.Drawing.Point(423, 135);
+            this.txt_ReplacePLUAML.Multiline = true;
+            this.txt_ReplacePLUAML.Name = "txt_ReplacePLUAML";
+            this.txt_ReplacePLUAML.ScrollBars = System.Windows.Forms.ScrollBars.Both;
+            this.txt_ReplacePLUAML.Size = new System.Drawing.Size(412, 32);
+            this.txt_ReplacePLUAML.TabIndex = 14;
+            this.txt_ReplacePLUAML.Text = "<Item type=\"Garment Style Option\" where=\"id=\'$1\'\" action=\"edit\">\r\n\t<cn_plu>$2</cn" +
     "_plu>\t\r\n</Item>";
             // 
             // label1
@@ -257,15 +257,15 @@
             this.label2.TabIndex = 16;
             this.label2.Text = "replace PLU AML";
             // 
-            // txt_ReplacePLUAML
+            // txt_ReplaceFabricAML
             // 
-            this.txt_ReplacePLUAML.Location = new System.Drawing.Point(423, 189);
-            this.txt_ReplacePLUAML.Multiline = true;
-            this.txt_ReplacePLUAML.Name = "txt_ReplacePLUAML";
-            this.txt_ReplacePLUAML.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.txt_ReplacePLUAML.Size = new System.Drawing.Size(412, 32);
-            this.txt_ReplacePLUAML.TabIndex = 14;
-            this.txt_ReplacePLUAML.Text = "<Item type=\"Garment BOM Part\" where=\"id=\'$1\'\" action=\"edit\">\t\t\r\n\t<related_id>\r\n\t\t" +
+            this.txt_ReplaceFabricAML.Location = new System.Drawing.Point(423, 189);
+            this.txt_ReplaceFabricAML.Multiline = true;
+            this.txt_ReplaceFabricAML.Name = "txt_ReplaceFabricAML";
+            this.txt_ReplaceFabricAML.ScrollBars = System.Windows.Forms.ScrollBars.Both;
+            this.txt_ReplaceFabricAML.Size = new System.Drawing.Size(412, 32);
+            this.txt_ReplaceFabricAML.TabIndex = 14;
+            this.txt_ReplaceFabricAML.Text = "<Item type=\"Garment BOM Part\" where=\"id=\'$1\'\" action=\"edit\">\t\t\r\n\t<related_id>\r\n\t\t" +
     "<Item type=\"Part\" action=\"get\" select=\"id\">\r\n\t\t\t<item_number>$2</item_number>\r\n\t" +
     "\t</Item>\r\n\t</related_id>\r\n</Item>";
             // 
@@ -286,8 +286,8 @@
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.txt_ReplacePLUAML);
             this.Controls.Add(this.txt_ReplaceFabricAML);
+            this.Controls.Add(this.txt_ReplacePLUAML);
             this.Controls.Add(this.pro_CheckItem);
             this.Controls.Add(this.btn_StartReplace);
             this.Controls.Add(this.btn_Start);
@@ -324,10 +324,10 @@
         private System.Windows.Forms.Button btn_Start;
         private System.Windows.Forms.ProgressBar pro_CheckItem;
         private System.Windows.Forms.ImageList imageLiarbry;
-        private System.Windows.Forms.TextBox txt_ReplaceFabricAML;
+        private System.Windows.Forms.TextBox txt_ReplacePLUAML;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.TextBox txt_ReplacePLUAML;
+        private System.Windows.Forms.TextBox txt_ReplaceFabricAML;
         private System.Windows.Forms.Label label3;
     }
 }
