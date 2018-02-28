@@ -51,6 +51,8 @@
             this.label1 = new System.Windows.Forms.Label();
             this.txt_ReplaceFabricAML = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
+            this.txt_updateSQL = new System.Windows.Forms.TextBox();
+            this.label2 = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -256,12 +258,31 @@
             this.label3.TabIndex = 16;
             this.label3.Text = "replace Fabric AML";
             // 
+            // txt_updateSQL
+            // 
+            this.txt_updateSQL.Location = new System.Drawing.Point(11, 697);
+            this.txt_updateSQL.Multiline = true;
+            this.txt_updateSQL.Name = "txt_updateSQL";
+            this.txt_updateSQL.Size = new System.Drawing.Size(824, 68);
+            this.txt_updateSQL.TabIndex = 17;
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(17, 682);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(65, 12);
+            this.label2.TabIndex = 15;
+            this.label2.Text = "update SQL";
+            // 
             // FrmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(841, 681);
+            this.ClientSize = new System.Drawing.Size(841, 777);
+            this.Controls.Add(this.txt_updateSQL);
             this.Controls.Add(this.label3);
+            this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.txt_ReplaceFabricAML);
             this.Controls.Add(this.pro_CheckItem);
@@ -303,6 +324,8 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TextBox txt_ReplaceFabricAML;
         private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.TextBox txt_updateSQL;
+        private System.Windows.Forms.Label label2;
     }
 }
 

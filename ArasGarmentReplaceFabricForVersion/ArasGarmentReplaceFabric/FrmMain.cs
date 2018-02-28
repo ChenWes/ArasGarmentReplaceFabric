@@ -291,9 +291,18 @@ namespace ArasGarmentReplaceFabric
                         tre_Item.Nodes[0].Expand();
                     }
 
+                    StringBuilder l_updateSQL= new StringBuilder();
+                    l_updateSQL.Append("BEGIN TRAN T1 \r");
+                    l_updateSQL.Append("DECLARE @LinePlanID INT \r");
+                    l_updateSQL.Append("SET @LinePlanID=0 \r");
+
+                    StringBuilder l_checkSQL = new StringBuilder();
+                    l_checkSQL.Append("DECLARE @LinePlanID INT \r");
+                    l_checkSQL.Append("SET @LinePlanID=0 \r");
+
                     foreach (TreeNode styleNode in tre_Item.Nodes[0].Nodes)
                     {
-                        styleNode.Expand();
+                        styleNode.Expand();                        
 
                         foreach (TreeNode optNode in styleNode.Nodes)
                         {
@@ -310,6 +319,15 @@ namespace ArasGarmentReplaceFabric
 
                                     if (!string.IsNullOrEmpty(partNode.Tag.ToString()) && !string.IsNullOrEmpty(partNode.ToolTipText.ToString()))
                                     {
+                                        //check sql
+                                        l_checkSQL.Append("SELECT LinePlanProductID,FabItemCode,COUNT(*) AS CountFab FROM  [dbo].[ProductColorway] WHERE LinePlanProductID IN ( SELECT LinePlanProductID FROM [dbo].[LinePlanProduct] WHERE LinePlanID=@LinePlanID AND ProductID='" + styleNode.Tag + "') AND FabItemCode='" + partNode.Text + "' \r");
+                                        l_checkSQL.Append("GROUP BY LinePlanProductID,FabItemCode \r");
+                                        l_checkSQL.Append("HAVING COUNT(*) > 1 \r");
+
+                                        //update sql
+                                        l_updateSQL.Append("UPDATE [dbo].[ProductColorway] SET FabItemCode='" + partNode.ToolTipText.ToString() + "' WHERE LinePlanProductID IN ( SELECT LinePlanProductID FROM [dbo].[LinePlanProduct] WHERE LinePlanID=@LinePlanID AND ProductID='" + styleNode.Tag + "') AND FabItemCode='" + partNode.Text + "' \r");
+
+
                                         string AML = "<AML>" + txt_ReplaceFabricAML.Text.Trim() + "</AML>";
 
                                         AML = AML.Replace("$1", partNode.Tag.ToString());
@@ -346,6 +364,9 @@ namespace ArasGarmentReplaceFabric
                             #endregion
                         }
                     }
+                    
+                    
+                    txt_updateSQL.Text = l_checkSQL.ToString()+ "\r\r\r\r"  + l_updateSQL.ToString();
                 }
             }
             catch (Exception ex)
